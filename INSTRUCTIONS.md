@@ -1,5 +1,4 @@
-WebGPU Forward+ and Clustered Deferred Shading - Instructions
-==========================================================
+# WebGPU Forward+ and Clustered Deferred Shading - Instructions
 
 **This is due Friday, October 17th at 11:59 PM.**
 
@@ -16,13 +15,14 @@ In this project, you will implement the Forward+ and Clustered Deferred shading 
 ## Running the code
 
 Follow these steps to install and view the project:
+
 - Clone this repository
 - Download and install [Node.js](https://nodejs.org/en/)
 - Run `npm install` in the root directory of this project to download and install dependencies
 - Run `npm run dev`, which will open the project in your browser
   - The project will automatically reload when you edit any of the files
 
-### Notes:
+### Notes
 
 - The project will **not** work immediately after being cloned and set up as there are some tasks for you to complete to get it up and running (see [the project instructions](#part-1-implement-the-different-rendering-methods)).
 - Browsers and GPUs
@@ -31,7 +31,7 @@ Follow these steps to install and view the project:
     - Try [Google Chrome Canary](https://www.google.com/chrome/canary/) for the latest updates.
   - If you have problems running the starter code, use Chrome and make sure you have updated your browser and video drivers.
   - Remember to follow steps from [Project 0](https://github.com/CIS5650-Fall-2024/Project0-Getting-Started/blob/main/INSTRUCTION.md#part-23-project-instructions---webgpu) if needed.
-- Ensure that the `Adapter Info -> Description` on https://webgpureport.org/, is your main GPU. Often your low-powered GPU will be selected as default. To make a permanent switch, use your OS's GPU Settings to make the GPU default for your browser.
+- Ensure that the `Adapter Info -> Description` on <https://webgpureport.org/>, is your main GPU. Often your low-powered GPU will be selected as default. To make a permanent switch, use your OS's GPU Settings to make the GPU default for your browser.
 
 ### Debugging Tools
 
@@ -43,6 +43,7 @@ Follow these steps to install and view the project:
 ### GitHub Pages setup (5 points)
 
 Since this project uses WebGPU, it is easy to deploy it on the web for anyone to see. To set this up, do the following:
+
 - Go to your repository's settings
 - Go to the "Pages" tab
 - Under "Build and Deployment", set "Source" to "GitHub Actions"
@@ -56,6 +57,7 @@ Once you've done those steps, any new commit to the `main` branch should automat
 **Ask on Ed Discussion for any clarifications.**
 
 In this project, you are given code for:
+
 - glTF scene loading
 - Camera control
 - Light movement compute shader
@@ -67,22 +69,25 @@ For editing the project, you will want to use [Visual Studio Code](https://code.
 
 WebGPU errors will appear in your browser's developer console (Ctrl + Shift + J for Chrome on Windows). Unlike some other graphics APIs, WebGPU error messages are often very helpful, especially if you've labeled your various pipeline components with meaningful names. Be sure to check the console whenever something isn't working correctly.
 
-### Part 1: Implement the different rendering methods 
+### Part 1: Implement the different rendering methods
 
 To start off, the naive renderer is missing a camera view projection matrix buffer, and your job is to fill in the missing parts. This will expose you to various parts of the codebase and will hopefully help you understand the general layout of the WebGPU rendering pipeline.
 
 #### 1) Naive (20 points)
 
 1.1) Create and write to the buffer
+
 - You first need to create the buffer in `camera.ts` and write the view projection matrix to it
 - Then, you need to upload the buffer to the GPU
 - Look for comments containing `TODO-1.1` for details
 
 1.2) Use the buffer in a bind group and a render pass
+
 - You then need to use the buffer in the naive renderer's layouts and pipeline
 - Look for comments containing `TODO-1.2` for details
 
 1.3) Update the shaders accordingly
+
 - Lastly, you need to update the naive renderer shaders to actually use the new buffer
 - Look for comments containing `TODO-1.3` for details
 
@@ -90,18 +95,18 @@ Then, based on the discussions in lecture and recitation, you are expected to im
 
 #### 2) Forward+ (50 points)
 
-  - Build a data structure to keep track of how many lights are in each cluster and what their indices are
-  - Render each fragment using only the lights that overlap its cluster
-  - Look for comments containing `TODO-2` for details
+- Build a data structure to keep track of how many lights are in each cluster and what their indices are
+- Render each fragment using only the lights that overlap its cluster
+- Look for comments containing `TODO-2` for details
 
 When adding new buffers, especially if they contain new structs, their alignment might be different than what you expect. Be sure to check your structs' alignment using [this online calculator](https://webgpufundamentals.org/webgpu/lessons/resources/wgsl-offset-computer.html#) and match the memory layout on the host.
 
 #### 3) Clustered Deferred (15 points)
 
-  - Reuse the clustering logic from Forward+
-  - Store vertex attributes in a G-buffer
-  - Read from the G-buffer in a separate fullscreen pass to produce final output
-  - Look for comments containing `TODO-3` for details
+- Reuse the clustering logic from Forward+
+- Store vertex attributes in a G-buffer
+- Read from the G-buffer in a separate fullscreen pass to produce final output
+- Look for comments containing `TODO-3` for details
 
 ### Part 2: Extra Credit: Effects and Optimizations
 
@@ -110,6 +115,7 @@ For full credit, you must show a good optimization effort and record the perform
 #### Extra Credit: Post Processing (5 points)
 
 Implement one of the following post-processing effects:
+
 - Bloom using post-process blur (box or Gaussian)
 - Toon shading (with ramp shading + simple depth-edge detection for outlines)
 
@@ -119,7 +125,7 @@ For full credit, you must create a new compute pass (not a fullscreen rendering 
 
 Use a single compute pass to replace the vertex + fragment shader fullscreen rendering pass you are provided in the base code. (+5)
 
-Optimize the G-buffer used for the Clustered Deferred renderer. In particular, aim to reduce the amount of textures and the size of per-pixel data. You will receive full points if your G-buffer uses only one color output image and each pixel stores additional data less than or equal to one `vec4f`. (+5) 
+Optimize the G-buffer used for the Clustered Deferred renderer. In particular, aim to reduce the amount of textures and the size of per-pixel data. You will receive full points if your G-buffer uses only one color output image and each pixel stores additional data less than or equal to one `vec4f`. (+5)
 
 Here are some ideas to get you started:
 
@@ -156,6 +162,7 @@ Use [render bundles](https://toji.dev/webgpu-best-practices/render-bundles.html)
 ## Performance Analysis (10 points)
 
 Compare your implementations of Forward+ and Clustered Deferred shading and analyze their differences.
+
 - Is one of them faster?
 - Is one of them better at certain types of workloads?
 - What are the benefits and tradeoffs of using one over the other?
@@ -166,22 +173,24 @@ Optimize your TypeScript and/or WGSL code. Chrome's profiling tools are useful f
 If your Forward+ or Clustered Deferred renderer is running much slower than expected, make sure you are not making copies of large structs/arrays in shader code. You can use [pointers](https://google.github.io/tour-of-wgsl/types/pointers/using/) in WGSL to avoid this issue.
 
 For each new effect feature (required or extra), please provide the following analysis:
-  - Concise overview and explanation of the feature.
-  - Performance change due to adding the feature.
-  - If applicable, how do parameters (such as number of lights, number of tiles, etc.) affect performance? Show data with graphs.
-    - Show timing in milliseconds, not FPS.
-  - If you did something to accelerate the feature, what did you do and why?
-  - How might this feature be optimized beyond your current implementation?
+
+- Concise overview and explanation of the feature.
+- Performance change due to adding the feature.
+- If applicable, how do parameters (such as number of lights, number of tiles, etc.) affect performance? Show data with graphs.
+  - Show timing in milliseconds, not FPS.
+- If you did something to accelerate the feature, what did you do and why?
+- How might this feature be optimized beyond your current implementation?
 
 For each performance feature (required or extra), please provide:
-  - Concise overview and explanation of the feature.
-  - Detailed performance improvement analysis of adding the feature.
-    - What is the best case scenario for your performance improvement? What is the worst? Explain briefly.
-    - Are there tradeoffs to this performance feature? Explain briefly.
-    - How do parameters (such as number of lights, number of tiles, etc.) affect performance? Show data with graphs.
-      - Show timing in milliseconds, not FPS.
-    - Show debug views when possible.
-      - If the debug view correlates with performance, explain how.
+
+- Concise overview and explanation of the feature.
+- Detailed performance improvement analysis of adding the feature.
+  - What is the best case scenario for your performance improvement? What is the worst? Explain briefly.
+  - Are there tradeoffs to this performance feature? Explain briefly.
+  - How do parameters (such as number of lights, number of tiles, etc.) affect performance? Show data with graphs.
+    - Show timing in milliseconds, not FPS.
+  - Show debug views when possible.
+    - If the debug view correlates with performance, explain how.
 
 ## Base Code Walkthrough
 
@@ -203,6 +212,7 @@ In general, you can search for comments containing "CHECKITOUT" to see the most 
 ## README
 
 Replace the contents of `README.md` with the following:
+
 - A brief description of your project and the specific features you implemented
 - At least one screenshot of your project running
 - A 30+ second video/gif of your project running showing all features (even though your demo can be seen online, it may not run on all computers, while a video will work everywhere)
