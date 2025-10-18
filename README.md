@@ -54,7 +54,7 @@ Performance: see the Performance Analysis section below.
 
 ## Performance Analysis
 
-![performance](performance.png)
+![performance](images/performance.png)
 
 | Number of Lights  | Naive (ms) | Forward+ (ms) | Clustered Deferred (ms)   |
 |------------------:|-----------:|---------------:|-------------------------:|
