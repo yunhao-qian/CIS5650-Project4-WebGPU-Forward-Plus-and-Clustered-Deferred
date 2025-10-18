@@ -12,6 +12,8 @@ University of Pennsylvania, CIS 565: GPU Programming and Architecture, Project 4
 
 ## Demo Video/GIF
 
+https://github.com/user-attachments/assets/ba904a32-6666-4b92-bd17-68923327566e
+
 ## (TODO: Your README)
 
 *DO NOT* leave the README to the last minute! It is a crucial part of the
