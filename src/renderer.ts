@@ -25,8 +25,7 @@ export async function initWebGPU() {
 
     aspectRatio = canvas.width / canvas.height;
 
-    if (!navigator.gpu)
-    {
+    if (!navigator.gpu) {
         let errorMessageElement = document.createElement("h1");
         errorMessageElement.textContent = "This browser doesn't support WebGPU! Try using Google Chrome.";
         errorMessageElement.style.paddingLeft = '0.4em';
@@ -36,8 +35,7 @@ export async function initWebGPU() {
     }
 
     const adapter = await navigator.gpu.requestAdapter();
-    if (!adapter)
-    {
+    if (!adapter) {
         throw new Error("no appropriate GPUAdapter found");
     }
 
@@ -109,6 +107,8 @@ export abstract class Renderer {
     protected stats: Stats;
 
     private prevTime: number = 0;
+    private deltaTimeSum: number = 0;
+    private deltaTimeCount: number = 0;
     private frameRequestId: number;
 
     constructor(stage: Stage) {
@@ -144,5 +144,12 @@ export abstract class Renderer {
 
         this.prevTime = time;
         this.frameRequestId = requestAnimationFrame((t) => this.onFrame(t));
+
+        this.deltaTimeSum += deltaTime;
+        this.deltaTimeCount++;
+        if (this.deltaTimeCount % 100 === 0) {
+            const avgDeltaTime = this.deltaTimeSum / this.deltaTimeCount;
+            console.log(`Average frame time over last ${this.deltaTimeCount} frames: ${avgDeltaTime.toFixed(2)} ms (${(1000 / avgDeltaTime).toFixed(2)} FPS)`);
+        }
     }
 }
