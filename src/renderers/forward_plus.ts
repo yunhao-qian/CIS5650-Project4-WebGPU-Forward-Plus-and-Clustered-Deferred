@@ -149,7 +149,7 @@ export class ForwardPlusRenderer extends renderer.Renderer {
         renderPass.setPipeline(this.pipeline);
 
         renderPass.setBindGroup(shaders.constants.bindGroup_scene, this.sceneUniformsBindGroup);
-        renderPass.setBindGroup(shaders.constants.bindGroup_clusteredLights, this.clusterSetBindGroup);
+        renderPass.setBindGroup(shaders.constants.bindGroup_clusterSet, this.clusterSetBindGroup);
 
         this.scene.iterate(
             node => {

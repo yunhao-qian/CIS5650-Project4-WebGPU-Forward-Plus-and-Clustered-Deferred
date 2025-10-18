@@ -17,7 +17,7 @@
 
 @group(${bindGroup_scene}) @binding(1) var<storage, read> lightSet: LightSet;
 
-@group(${bindGroup_clusteredLights}) @binding(0) var<storage, read> clusterSet: ClusterSet;
+@group(${bindGroup_clusterSet}) @binding(0) var<storage, read> clusterSet: ClusterSet;
 
 @group(${bindGroup_material}) @binding(0) var diffuseTex: texture_2d<f32>;
 @group(${bindGroup_material}) @binding(1) var diffuseTexSampler: sampler;
@@ -42,12 +42,12 @@ fn main(in: FragmentInput) -> @location(0) vec4f
     var clusterIndex = computeClusterIndex(in.fragPos, in.viewPos, clusterSet.numClustersX, clusterSet.numClustersY);
     let numLights = clusterSet.clusters[clusterIndex].numLights;
 
-    var totalLightContrib = vec3f(0, 0, 0);
+    var totalLightContrib = vec3f(0.0f, 0.0f, 0.0f);
     for (var lightIdx = 0u; lightIdx < numLights; lightIdx++) {
         let light = lightSet.lights[clusterSet.clusters[clusterIndex].lightIndices[lightIdx]];
         totalLightContrib += calculateLightContrib(light, in.pos, normalize(in.nor));
     }
 
-    var finalColor = diffuseColor.rgb * totalLightContrib;
-    return vec4(finalColor, 1);
+    let finalColor = diffuseColor.rgb * totalLightContrib;
+    return vec4(finalColor, 1.0f);
 }
